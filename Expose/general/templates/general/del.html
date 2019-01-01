@@ -1,0 +1,369 @@
+
+{% load staticfiles%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Expose</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <link href="{% static 'general/assets/css/bootstrap.css' %}" rel="stylesheet" />
+    <link href="{% static 'general/assets/css/gaia.css' %}" rel="stylesheet"/>
+
+    <!--     Fonts and icons     -->
+    <link href='https://fonts.googleapis.com/css?family=Cambo|Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'general/assets/css/fonts/pe-icon-7-stroke.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default navbar-transparent navbar-fixed-top" color-on-scroll="200">
+        <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
+        <div class="container">
+            <div class="navbar-header">
+                <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar bar1"></span>
+                    <span class="icon-bar bar2"></span>
+                    <span class="icon-bar bar3"></span>
+                </button>
+                <a href="{% url 'home'%}" class="navbar-brand">
+                    <div class="row">
+                    <!--<div class="col-lg-5 col-md-5 col-sm-5" style="margin-top:15px;">Expose</div>-->
+                    <img src="{% static 'general/assets/img/logo.png' %}" width=50px style="margin-left: 20px"><span>Explore</span>
+                </div>
+                </a>
+            
+                
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right navbar-uppercase">
+                    <li>
+                        <a href="{% url 'about'%}">About</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#gaia" class="dropdown-toggle btn btn-danger btn-fill" data-toggle="dropdown">
+                           Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-danger">
+                            <li>
+                                <a href="{% url 'login'%}"><i class=""></i> Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register'%}"><i class=""></i> Register</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+
+
+    <div class="section section-header">
+        <div class="parallax filter filter-color-red">
+            <div class="image"
+                style="background-image: url('{% static 'general/assets/img/default.jpg' %}')">
+            </div>
+            <div class="container">
+                <div class="content">
+                    <div class="title-area">
+                        <p>Welcome</p>
+                        <h1 class="title-modern">Expose</h1>
+                        <h3>Feel proud to Expose yourself</h3>
+                        <div class="separator line-separator">♦ </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class= "section">
+        <div class= "container">
+        <form class="input-group-addon">
+            <div class='row'>
+                <div class="col-4">
+                    <input class= 'form-control-addon' type="text" placeholder="THis is what i dont do">
+                </div>
+                <div class="col-4">
+                    <input type="submit" class='btn btn-danger btn-fill btn-lg' value='submoy'>
+                </div>
+                <div class="col-4">
+                    <input type="submit" class='btn btn-danger btn-fill btn-lg' value='submoy'>
+                </div>
+                <textarea name="" id=""class='form-control' cols="30" rows="10"></textarea>
+                
+             <!-- <a href="{% url 'about'%}" class="btn btn-danger btn-fill btn-lg">Contact Us</a> -->
+        </form>
+
+        <div class="section section-signin">
+
+            <div class="image-container">
+                <div class="filter filter-color-black" style="background-image: url('../assets/img/header-9.jpeg')">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="content">
+                            <div class="title-area">
+                                <h1 class="title-modern">Gaia</h1>
+                                <h3>Premium Bootstrap Template</h3>
+                            </div>
+
+                            <h5 class="subtitle">First Feature</h5>
+                            <p>Ultralight Prayer: Happy Easter! In Roman times the artist would contemplate proportions and colors. Now there is only one important color...
+                            </p>
+                            <h5 class="subtitle">Second Feature</h5>
+                            <p>We no longer have to be scared of the truth I promise I will never let the people down. I want a better life for all!
+                            </p>
+                            <h5 class="subtitle">Third Feature</h5>
+                            <p>WI have a dream. That dreams will actualize. Dreams will manifest. When companies doubt me they doubt us.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-container">
+                <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 text-center">
+
+                    <div class="title-area">
+                        <h2>Welcome</h2>
+                        <div class="separator separator-danger">✻</div>
+                    </div>
+
+                    <label><h4 class="text-gray">Your email</h4></label>
+                    <div class="form-group">
+                        <input type="email" name="email" value="" placeholder="MichaelJordan@gmail.com" class="form-control form-control-plain">
+                    </div>
+
+                    <label><h4 class="text-gray">Your password</h4></label>
+                    <div class="form-group">
+                         <input type="password" name="password" value="" placeholder="●●●●" class="form-control form-control-plain">
+                    </div>
+                    <p class="text-gray">
+                        By signing up you agree to<br>
+                        <a href="signin.html">Terms of Use</a> and <a href="signin.html"> Privacy Policy</a>
+                    </p>
+
+                    <div class="footer">
+                        <button class="btn btn-danger btn-round btn-fill btn-wd">
+                            Sign In
+                        </button>
+                        <p class="text-gray info">Don't have an account? <a href="signup.html">Sign up</a></p>
+                    </div>
+                </div>
+            </div>
+    </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="title-area">
+                    <h2>Our Services</h2>
+                    <div class="separator separator-danger">✻</div>
+                    <p class="description">We promise you a new look and more importantly, a new attitude. We build that by getting to know you, your needs and creating the best reputation for yourself.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-portfolio"></i>
+                        </div>
+                        <h3>Sales</h3>
+                        <p class="description">We make our design perfect for you. Our adjustment turn our clothes into your clothes.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-note2"></i>
+                        </div>
+                        <h3>Content</h3>
+                        <p class="description">We create a persona regarding the multiple wardrobe accessories that we provide..</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-search"></i>
+                        </div>
+                        <h3>Music</h3>
+                        <p class="description">We like to present the world with our work, so we make sure we spread the word regarding our clothes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section section-our-team-freebie">
+        <div class="parallax filter filter-color-black">
+            <div class="image" style="background-image:url('{% static 'general/assets/img/header-2.jpeg' %}')">
+            </div>
+            <div class="container">
+                <div class="content">
+                    <div class="row">
+                        <div class="title-area">
+                            <h2>Who We Are</h2>
+                            <div class="separator separator-danger">✻</div>
+                            <p class="description">We promise you a new look and more importantly, a new attitude. We build that by getting to know you, your needs and creating the best looking clothes.</p>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card card-member">
+                                            <div class="content">
+                                                <div class="avatar avatar-danger">
+                                                    <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_1.jpg' %}"/>
+                                                </div>
+                                                <div class="description">
+                                                    <h3 class="title">Tina</h3>
+                                                    <p class="small-text">CEO / Co-Founder</p>
+                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card card-member">
+                                            <div class="content">
+                                                <div class="avatar avatar-danger">
+                                                    <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_4.jpg' %}"/>
+                                                </div>
+                                                <div class="description">
+                                                    <h3 class="title">Andrew</h3>
+                                                    <p class="small-text">Product Designer</p>
+                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card card-member">
+                                            <div class="content">
+                                                <div class="avatar avatar-danger">
+                                                    <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_3.jpg' %}"/>
+                                                </div>
+                                                <div class="description">
+                                                    <h3 class="title">Michelle</h3>
+                                                    <p class="small-text">Marketing Hacker</p>
+                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section section-our-clients-freebie">
+        <div class="container">
+            <div class="title-area">
+                <h5 class="subtitle text-gray">Here are some</h5>
+                <h2>Clients Testimonials</h2>
+                <div class="separator separator-danger">∎</div>
+            </div>
+
+            <ul class="nav nav-text" role="tablist">
+                <li class="active">
+                    <a href="#testimonial1" role="tab" data-toggle="tab">
+                        <div class="image-clients">
+                            <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_5.jpg' %}"/>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#testimonial2" role="tab" data-toggle="tab">
+                        <div class="image-clients">
+                            <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_6.jpg' %}"/>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#testimonial3" role="tab" data-toggle="tab">
+                        <div class="image-clients">
+                            <img alt="..." class="img-circle" src="{% static 'general/assets/img/faces/face_2.jpg' %}"/>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="testimonial1">
+                    <p class="description">
+                        And I used a period because contrary to popular belief I strongly dislike exclamation points! We no longer have to be scared of the truth feels good to be home In Roman times the artist would contemplate proportions and colors. Now there is only one important color... Green I even had the pink polo I thought I was Kanye I promise I will never let the people down. I want a better life for all!
+                    </p>
+                </div>
+                <div class="tab-pane" id="testimonial2">
+                    <p class="description">Green I even had the pink polo I thought I was Kanye I promise I will never let the people down. I want a better life for all! And I used a period because contrary to popular belief I strongly dislike exclamation points! We no longer have to be scared of the truth feels good to be home In Roman times the artist would contemplate proportions and colors. Now there is only one important color...
+                    </p>
+                </div>
+                <div class="tab-pane" id="testimonial3">
+                    <p class="description"> I used a period because contrary to popular belief I strongly dislike exclamation points! We no longer have to be scared of the truth feels good to be home In Roman times the artist would contemplate proportions and colors. The 'Gaia' team did a great work while we were collaborating. They provided a vision that was in deep connection with our needs and helped us achieve our goals.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="section section-small section-get-started">
+        <div class="parallax filter">
+            <div class="image"
+                style="background-image: url('{% static 'general/assets/img/office-1.jpeg' %}')">
+            </div>
+            <div class="container">
+                <div class="title-area">
+                    <h2 class="text-white">Do you want to work with us?</h2>
+                    <div class="separator line-separator">♦</div>
+                    <p class="description"> We are keen on creating a second skin for anyone with a sense of style! We design our clothes having our customers in mind and we never disappoint!</p>
+                </div>
+
+                <div class="button-get-started">
+                    <a href="{% url 'about'%}" class="btn btn-danger btn-fill btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer class="container" style="background-color: #172b4d !important;width: 100%">
+            <div class="copyright text-center text-xl-left text-muted" style="margin-top:100px;margin-bottom:50px; color: #5e72e4;">
+                    &copy; 2018 <b><a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank" style="color: #5e72e4;">Creative Tim</a></b>
+                  </div>
+          </footer>
+
+</body>
+
+{% include 'general/include/scripts.html' %}
+
+</html>

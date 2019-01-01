@@ -6504,7 +6504,8 @@ input[type='button'].btn-block
 .alert-danger
 {
     color: #fff;
-    border-color: #f75676; 
+    border-color: #f75676;
+    border-radius: 1em;
     background-color: #f75676;
 }
 .alert-danger hr
