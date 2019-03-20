@@ -1,0 +1,196 @@
+{% extends 'general/include/head_argon.html'%}
+
+{% load staticfiles %}
+
+{% load filters %}
+{% block main_content %}
+
+<body>
+<!-- Sidenav -->
+
+  {% include 'general/include/sidenav.html' %}
+   <!-- Main content -->
+  <div class="main-content">
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+
+    <div class="container-fluid mt--7">
+
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Card tables</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Date reviewed</th>
+                    <th scope="col">author</th>
+                    <th scope="col">Contact Email</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for i in all %}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{i.title}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{i.date_reviewed}}
+
+                    </td>
+                    <td>
+                        {{i.author}}
+                    </td>
+                    <td>
+                        {{i.email}}
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="#" id="edit" onclick="EditReview('{{i.id}}', '{{i.title}}', '{{i.abstract}}', '{{i.question}}', '{{i.opinion}}', '{{i.identity}}')">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer py-4">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <br>
+
+
+      <div class="col-xl-12 order-xl-1" id="forms">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0" id="title_of_review">Title of review</h3>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body">
+            <form method="post" action="{% url 'reviews' id %}">
+              {% csrf_token%}
+              <h6 class="heading-small text-muted mb-4">Post information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label" for="abstract">Abstract</label>
+                      <p id="abstract">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="form-control-label" for="question">Question</label>
+                      <p id="question">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo?</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <!-- Description -->
+              <h6 class="heading-small text-muted mb-4">Message</h6>
+              <div class="pl-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Opinion</label>
+                  <textarea rows="4" class="form-control form-control-alternative" id="opinion" name="opinion" placeholder="Write about the reason for posting this review such that viewers would be interested to answer your question"></textarea>
+                </div>
+                <div id="check" class="custom-control custom-control-alternative custom-checkbox">
+                  <input class="custom-control-input" name="identity" id="identity"  type="checkbox">
+                  <label class="custom-control-label" for="identity">
+                    <span class="text-muted">Anonymous</span>
+                  </label>
+                </div>
+
+              </div>
+
+              <hr class="my-4" />
+              <!-- Submit -->
+              <div class="pl-lg-4">
+                <div class="form-group">
+                  <input type="hidden" name="post_id" id="post-id">
+                  <input type="submit" class="btn btn-md btn-primary" value="Save">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      {% include 'general/include/footer_account.html' %}
+    </div>
+  </div>
+
+  <script>
+  $("#forms").hide();
+
+$('#check').click(()=>{
+  if ($('#identity').is(':checked')){
+  console.log('checked')
+    $('#identity').val('Anonymous');
+  }
+
+  else{
+    $('#identity').val('Public');
+      console.log('NOT checked');
+  }
+});
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+   });
+
+      function EditReview(id, title, abstract, question, opinion, identity){
+      $("#forms").show();
+      $("#post-id").val(id);
+      $("#identity").val(identity);
+      $("#opinion").val(opinion);
+      $("#title_of_review").text(title);
+      $("#abstract").text(abstract);
+      $("#question").text(question);
+
+      if (identity==='Anonymous'){
+        $("#identity").prop('checked', true);
+      }
+
+      };
+
+
+  </script>
+
+</body>
+
+{% endblock %}

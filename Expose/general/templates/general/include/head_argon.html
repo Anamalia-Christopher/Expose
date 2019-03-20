@@ -1,4 +1,4 @@
-{% load staticfiles%}
+{% load staticfiles %}
 
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>Argon Dashboard - Free Dashboard for Bootstrap 4</title>
+  <title>Expose</title>
   <!-- Favicon -->
   <link href="{% static 'general/assets/img/brand/favicon.png' %}" rel="icon" type="image/png">
   <!-- Fonts -->
@@ -27,7 +27,37 @@
 
 {% endblock%}
 
+<!--Argon for sidenav active-->
+ {% if request.path|slice:'8' == '/career/'%}
+  <script>
+    $('#career').addClass('active');
+  </script>
+{% endif%}
+
+{% if request.path|slice:'8' == '/profile'%}
+  <script>
+    $('#profile').addClass('active');
+  </script>
+{% endif%}
+
+{% if request.path|slice:'5' == '/post'%}
+  <script>
+    $('#post').addClass('active');
+  </script>
+{% endif%}
+{% if request.path|slice:'8' == '/reviews'%}
+  <script>
+    $('#reviews').addClass('active');
+  </script>
+{% endif%}
+
+{% if request.path|slice:'10' == '/dashboard'%}
+  <script>
+    $('#dashboard').addClass('active');
+  </script>
+{% endif%}
 <!-- Argon Scripts -->
+<script src="{% static 'general/assets/vendor/bootstrap/dist/js/popper.min.js' %}"></script>
   <!-- Core -->
   <script src="{% static 'general/assets/vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
   <!-- Argon JS -->

@@ -92,13 +92,43 @@ def FOF(request):
 def ResetSuccess(request):
     return render(request, 'general/successReset.html')
 
+def Dashboard(request, id):
+    return render(request, 'general/dashboard.html', {'id':id})
+
+def Post(request, id):
+
+    if request.method == 'POST':
+        Post_C(id=id).SaveChanges(POST=request.POST)
+
+    # print(Post_C(id).GatherAll())
+
+    return render(request, 'general/post.html', {'id':id, 'all':[ DictionaryOperations(dictionary=i).rename_key('_id', 'id') for i in Post_C(id).GatherAll()]})
+
+def Reviews(request, id):
+
+    if request.method == 'POST':
+        Review_C(id=id).SaveChanges(POST=request.POST)
+    # print([ DictionaryOperations(dictionary=i).linear_dictionary_reviews(id=id, old_key='_id', new_key='id') for i in  Review_C(id).GatherAll()])
+    return render(request, 'general/reviews.html', {'id':id, 'all':[ DictionaryOperations(dictionary=i).linear_dictionary_reviews(id=id, old_key='_id', new_key='id') for i in  Review_C(id).GatherAll()]})
+
 
 def Career(request, id):
     if request.method == 'POST':
         Career_C(id=id).SaveChanges(POST=request.POST)
-    Career_C(id).GatherAll()
-    return render(request, 'general/career.html', {'id':id})
 
+    Career_C(id).GatherAll() # length is 1.returned as a list
+    # print(Career_C(id).GatherAll())
+    return render(request, 'general/career.html', {'id':id, 'all':Career_C(id).GatherAll()[0]})
+
+def Profile(request, id):
+    if request.method == 'POST':
+        Profile_C(id=id).SaveChanges(POST=request.POST)
+    return render(request, 'general/profile.html', {'id': id, 'all': Profile_C(id=id).GatherAll()})
+
+def Privacy(request, id):
+    Profile_C(id=id).Privacy()
+
+    return HttpResponseRedirect(reverse('profile', args=(id, )))
 
 
 # This is to send a successful sending of reset password email
@@ -107,3 +137,28 @@ def SuccessRequest(request):
 
 def Del(request):
     return render(request, 'general/del.html')
+
+
+
+######## Helpful code
+
+# rename dictionary key
+
+class DictionaryOperations:
+    def __init__(self, dictionary):
+        self.dictionary = dictionary
+    def rename_key(self, old_key, new_key):
+        self.dictionary[new_key] = self.dictionary[old_key]
+        del self.dictionary[old_key]
+        return self.dictionary
+
+
+    def linear_dictionary_reviews(self,id, old_key, new_key):
+        self.dictionary['opinion'] = self.dictionary['comments'][id]['opinion']
+        self.dictionary['identity'] = self.dictionary['comments'][id]['identity']
+        self.dictionary['date_reviewed'] = self.dictionary['comments'][id]['date_reviewed']
+
+        del self.dictionary['comments']
+
+        self.rename_key(old_key=old_key, new_key=new_key)
+        return self.dictionary

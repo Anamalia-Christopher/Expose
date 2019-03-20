@@ -1,26 +1,30 @@
 {% extends 'general/include/head_argon.html'%}
 
+{% load staticfiles %}
 
 
 {% block main_content %}
 
-
 <body>
 <!-- Sidenav -->
+
   {% include 'general/include/sidenav.html' %}
    <!-- Main content -->
   <div class="main-content">
+
     <!-- Header -->
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->
-          
+
         </div>
       </div>
     </div>
     <!-- Page content -->
+
     <div class="container-fluid mt--7">
+
       <!-- Table -->
       <div class="row">
         <div class="col">
@@ -32,38 +36,34 @@
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Project</th>
-                    <th scope="col">Budget</th>
-                    <th scope="col">Status</th>
-                    <!--<th scope="col">Users</th>-->
-                    <th scope="col">Completion</th>
+                    <th scope="col">Company name</th>
+                    <th scope="col">Date posted</th>
+                    <th scope="col">Ratings</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
+                {% for key, value in all.items %}
                   <tr>
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">Argon Design System</span>
+                          <span class="mb-0 text-sm">{{key}}</span>
                         </div>
                       </div>
                     </th>
                     <td>
-                      $2,500 USD
-                    </td>
-                    <td>
-                      <span class="badge badge-dot mr-4">
-                        <i class="bg-warning"></i> pending
-                      </span>
+                      {{value.datetime_update}}
                     </td>
                     <td>
                       <div class="d-flex align-items-center">
-                        <span class="mr-2">60%</span>
+                        <span class="mr-2">{{value.Basic_Information.rating}}
+                          {% for i in "r"|center:value.Basic_Information.rating %}
+                          <i class="fas fa-star text-yellow"></i>
+                          {% endfor %}
+                        </span>
+
                         <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                          </div>
                         </div>
                       </div>
                     </td>
@@ -73,92 +73,91 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                          <a class="dropdown-item" href="#">Edit</a>
+                          <a class="dropdown-item" href="#" id="edit" onclick="EditCareer('{{key}}', '{{value.Basic_Information.email}}', '{{value.Basic_Information.start}}', '{{value.Basic_Information.end}}', '{{value.Basic_Information.rating}}', '{{value.Contact.address}}', '{{value.Contact.city}}', '{{value.Contact.country}}', '{{value.Contact.postal_code}}', '{{value.message}}')">Edit</a>
                           <a class="dropdown-item" href="#">Delete</a>
                         </div>
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <th scope="row">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">Angular Now UI Kit PRO</span>
-                        </div>
-                      </div>
-                    </th>
-                    <td>
-                      $1,800 USD
-                    </td>
-                    <td>
-                      <span class="badge badge-dot">
-                        <i class="bg-success"></i> completed
-                      </span>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <span class="mr-2">100%</span>
-                        <div>
-                          <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="text-right">
-                      <div class="dropdown">
-                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                          <a class="dropdown-item" href="#">Edit</a>
-                          <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                {% endfor %}
+
                 </tbody>
               </table>
             </div>
             <div class="card-footer py-4">
-              <nav aria-label="...">
-                <ul class="pagination justify-content-end mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">
-                      <i class="fas fa-angle-left"></i>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      <i class="fas fa-angle-right"></i>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              <div class="row align-items-center" style="margin:20px;">
+              <div class="row align-items-center mt-5">
                   <div class="w-100"></div>
-                  <div class="col-sm-1 no-gutters offset-6" >
-                    <button class="btn btn-md btn-primary rounded-circle " data-clipboard-text="fat-add" title="Copy to clipboard" id="addOrganization">
+
+                  <div class="row col-md-10 col-lg-10 col-sm-2 no-gutters justify-content-center offset-1" >
+                    <button class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="download template" id="download">
+                        <i class="ni ni-bold-down"></i>
+                    </button>
+
+                    <button class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Add another evaluation to the list" id="addOrganization">
                         <i class="ni ni-fat-add"></i>
                     </button>
-                    
+
+                    <button class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Upload completed template" id="upload">
+                        <i class="ni ni-bold-up"></i>
+                    </button>
+
                   </div>
               </div>
             </div>
-            
+
           </div>
         </div>
       </div>
       <br>
+      <div class="col-xl-12 order-xl-1" id="downloads" style="display:none;"  >
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Download the template</h3>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body">
+
+              <hr class="my-4" />
+              <!-- Submit -->
+              <div class="pl-lg-4 text-center">
+                <div class="form-group">
+                  <a class="btn btn-md btn-primary" href="{% static 'general/assets/docs/ExposeCareerTemplate.docx' %}" style="color:white;" download="Expose Career Template">
+                   Download
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 order-xl-1" id="uploads"  style="display:none;" >
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Upload completed template</h3>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body">
+            <form method="post" action="#">
+              <hr class="my-4" />
+              <div class="pl-lg-4 text-center">
+                <div class="form-group">
+                  <input type="file" class="form-control" id="file" required>
+                  <input type="submit" class="btn btn-md btn-primary mt-4" value="Submit">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <div class="col-xl-12 order-xl-1" id="forms" style="display:none;" >
         <div class="card bg-secondary shadow">
           <div class="card-header bg-white border-0">
@@ -166,7 +165,7 @@
               <div class="col-8">
                 <h3 class="mb-0">Add another organization</h3>
               </div>
-              
+
             </div>
           </div>
           <div class="card-body">
@@ -177,8 +176,8 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="form-group">
-                      <label class="form-control-label" for="input-username">Company name</label>
-                      <input type="text" id="input-username" name="name" class="form-control form-control-alternative" placeholder="Name of Organization">
+                      <label class="form-control-label" for="input-name">Company name</label>
+                      <input type="text" id="input-name" name="name" class="form-control form-control-alternative" placeholder="Name of Organization">
                     </div>
                   </div>
                   <div class="col-lg-6">
@@ -205,9 +204,15 @@
                   <div class="col-lg-4">
                     <div class="form-group">
                       <label class="form-control-label" for="ratings">Ratings</label>
-                      <input class="form-control datepicker form-control-alternative" id="ratings" name="rating" placeholder="Ratings" type="text">
+                      <select class="form-control form-control-alternative" id="ratings" name="rating" style="background-color:white !important">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                      <!--<input class="form-control form-control-alternative" id="ratings" name="rating" placeholder="Ratings" type="text">-->
                     </div>
-<!--todo: make the ratings a drop down menu-->
                   </div>
                 </div>
               </div>
@@ -250,7 +255,7 @@
               <div class="pl-lg-4">
                 <div class="form-group">
                   <label class="form-control-label">About this Organization</label>
-                  <textarea rows="4" class="form-control form-control-alternative" name="message" placeholder="Write about the organization. Judging from your experience. Basically anything about them"></textarea>
+                  <textarea rows="4" id="message" class="form-control form-control-alternative" name="message" placeholder="Write about the organization. Judging from your experience. Basically anything about them"></textarea>
                 </div>
               </div>
 
@@ -270,14 +275,55 @@
       {% include 'general/include/footer_account.html' %}
     </div>
   </div>
-  <!-- Argon Scripts -->
-   {% include 'general/include/argon_scripts.html' %}
 
   <script>
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
     $("#addOrganization").click(()=>{
-      $("#forms").show()
-      $("#addOrganization").prop("disabled",true);
-    })
+      $("#forms").toggle()
+      $("#downloads").hide();
+      $("#uploads").hide();
+    });
+
+    $("#download").click(()=>{
+      $("#downloads").toggle()
+      $("#forms").hide();
+      $("#uploads").hide();
+    });
+
+    $("#upload").click(()=>{
+      $("#uploads").toggle()
+      $("#forms").hide();
+      $("#downloads").hide();
+
+    });
+
+    $("#file").hover(()=>{
+      $("#file").css("cursor","pointer")
+
+    });
+
+
+
+      function EditCareer(key, email, start, end, rating, address, city, country, postalCode, message){
+      $("#forms").show();
+      $("#input-name").val(key);
+      $("#input-email").val(email);
+      $("#start-date").val(start);
+      $("#end-date").val(end);
+      $("#ratings").val(rating);
+      $("#input-address").val(address);
+      $("#input-city").val(city);
+      $("#input-country").val(country);
+      $("#input-postal-code").val(postalCode);
+      $("#message").val(message);
+
+      };
+
+
   </script>
 
 </body>

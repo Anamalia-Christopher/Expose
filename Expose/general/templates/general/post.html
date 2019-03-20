@@ -1,0 +1,267 @@
+{% extends 'general/include/head_argon.html'%}
+
+{% load staticfiles %}
+
+
+{% block main_content %}
+
+<body>
+<!-- Sidenav -->
+
+  {% include 'general/include/sidenav.html' %}
+   <!-- Main content -->
+  <div class="main-content">
+
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+
+    <div class="container-fluid mt--7">
+
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Card tables</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">title</th>
+                    <th scope="col">Date Posted</th>
+                    <th scope="col">Category</th>
+                    <!--<th scope="col">Users</th>-->
+                    <th scope="col">Contact Email</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+               {% for i in all %}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{i.title}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+
+                      {{i.datetime_update}}
+                    </td>
+                    <td>
+                        {{i.target.category}}
+                    </td>
+                    <td>
+                        {{i.email}}
+                    </td>
+                    <td class="text-right">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" href="#" id="edit" onclick="EditPost('{{i.id}}', '{{i.title}}', '{{i.email}}', '{{i.abstract}}', '{{i.question}}', '{{i.target.category}}', '{{i.target.filter}}')">Edit</a>
+                          <a class="dropdown-item" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer py-4">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">
+                      <i class="fas fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="row align-items-center mt-5">
+                  <div class="w-100"></div>
+
+                  <div class="row col-md-10 col-lg-10 col-sm-2 no-gutters justify-content-center offset-1" >
+
+                    <button class="btn btn-md btn-primary" data-toggle="tooltip" data-placement="bottom" title="Post a review for feedback" id="addPost">
+                        <i class="ni ni-fat-add"></i>
+                    </button>
+
+                  </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <br>
+
+
+      <div class="col-xl-12 order-xl-1" id="forms" style="display:none;" >
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Post your issue</h3>
+              </div>
+
+            </div>
+          </div>
+          <div class="card-body">
+            <form method="post" action="{% url 'post' id %}">
+              {% csrf_token%}
+              <h6 class="heading-small text-muted mb-4">Post information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-title">Title of review</label>
+                      <input type="text" id="input-title" name="title" class="form-control form-control-alternative" placeholder="Name of Organization">
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Email address</label>
+                      <input type="email" id="input-email" name="email" class="form-control form-control-alternative" placeholder="Contact email address">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <!-- Description -->
+              <h6 class="heading-small text-muted mb-4">Message</h6>
+              <div class="pl-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Abstract</label>
+                  <textarea rows="4" class="form-control form-control-alternative" id="abstract" name="abstract" placeholder="Write about the reason for posting this review such that viewers would be interested to answer your question"></textarea>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-control-label" for="question">Question</label>
+                      <input id="question" name="question" class="form-control form-control-alternative" placeholder="Question to ask reviewers">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <hr class="my-4" />
+              <!-- Address -->
+              <h6 class="heading-small text-muted mb-4">Target Audience</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="category">Category</label>
+                      <select class="form-control form-control-alternative" id="category" name="category" style="background-color:white !important">
+                        <option>All Audience</option>
+                        <option>First name</option>
+                        <option>Surname</option>
+                        <option>City</option>
+                        <option>Current Organization</option>
+                        <option>Past Organization</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-category">Input category<span style="color:#2dce89"> (Be accurate as possible)</span></label>
+                      <input type="text" id="input-category" name="filter" class="form-control form-control-alternative" placeholder="Be specific and accurate">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+              <!-- Submit -->
+              <div class="pl-lg-4">
+                <div class="form-group">
+                  <input type="hidden" id="post-id" name="post_id">
+                  <input type="submit" class="btn btn-md btn-primary" value="Save">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      {% include 'general/include/footer_account.html' %}
+    </div>
+  </div>
+
+  <script>
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+    $("#addPost").click(()=>{
+      $("#forms").toggle()
+    });
+
+if ($("#category").val() === "All Audience"){
+      $("#input-category").prop("disabled", true);
+   }
+
+  $("#category").on('change', ()=>{
+  if ($("#category").val() === "All Audience"){
+      $("#input-category").prop("disabled", true);
+   }
+   else{
+       $("#input-category").prop("disabled", false);
+       $("#input-category").attr("required", true);
+
+   }
+  });
+
+
+      function EditPost(id, title, email, abstract, question, category, filter){
+      $("#forms").show();
+      $("#post-id").val(id);
+      $("#input-title").val(title);
+      $("#input-email").val(email);
+      $("#abstract").val(abstract);
+      $("#question").val(question);
+      $("#category").val(category);
+      $("#input-category").val(filter);
+
+      };
+
+
+
+  </script>
+
+</body>
+
+{% endblock %}
+
+<!--todo : doesnt work with newline in message area-->

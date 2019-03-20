@@ -35,7 +35,12 @@ urlpatterns = [
 
 
 
+    path('dashboard/<slug:id>', Dashboard, name='dashboard'),
     path('career/<slug:id>', Career, name='career'),
+    path('post/<slug:id>', Post, name='post'),
+    path('reviews/<slug:id>', Reviews, name='reviews'),
+    path('profile/<slug:id>', Profile, name='profile'),
+    path('<slug:id>/privacy', Privacy, name='privacy'),
 
 
 

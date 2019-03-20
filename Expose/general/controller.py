@@ -11,8 +11,10 @@ db = MongoClient('localhost', 27017).Expose
 users = db.auth_user
 confirmatory_code = db.confirmatory_code
 career = db.career
+post = db.post
 reset = db.reset
 domainName = '127.0.0.1:8000/'
+
 
 
 class Registration:
@@ -56,6 +58,8 @@ class Confirmation:
                 Queries(confirmatory_code).DeleteMany({'_id': ObjectId(self.id)})
 
                 UserSettings(id=self.id).Activate()
+
+                Queries(users).UpdateOne(filter={'_id': self.id}, update={'$set': {'privacy': 'Public'}}) # make account public after creating
 
                 return True
 
@@ -118,7 +122,7 @@ class Data_Extraction:
                     "email": POST.get('email'),
                     "start": POST.get('start'),
                     "end": POST.get('end'),
-                    "rating": POST.get('rating')
+                    "rating": int(POST.get('rating'))
 
                 },
 
@@ -135,29 +139,71 @@ class Data_Extraction:
             }
         }
 
-class Career_C:
+    def Post(self, POST, id):
+        return {
+                "_id":ObjectId(POST.get("post_id")),
+                "title":POST.get('title'),
+                "email":POST.get('email'),
+                "abstract": POST.get('abstract'),
+                "question": POST.get('question'),
+                "target":{
+                    "category": POST.get('category'),
+                    "filter": POST.get('filter')
+                },
+                "author":UserSettings(id=id).getEmail()['username'],
+                "datetime_update": datetime.now()
+
+        }
+
+    def Review(self, POST, email, id):
+        return {
+            "comments":{
+                id:{
+                "email":email,
+                "opinion":POST.get('opinion'),
+                "identity": POST.get('identity'),
+                "date_reviewed":datetime.now()
+                }
+            },
+            "_id":ObjectId(POST.get('post_id'))
+        }
+
+    def Profile(self, POST):
+        return {
+            "first_name": POST.get('first_name'),
+            "last_name":POST.get('last_name'),
+            "email":POST.get('email'),
+            "date_of_birth":POST.get('dob'),
+            "current_organization":POST.get('current_organization'),
+            "position":POST.get('position'),
+            "address":POST.get('address'),
+            "city":POST.get('city'),
+            "country":POST.get('country'),
+            "telephone":POST.get('telephone'),
+            "bio":POST.get('bio')
+
+        }
+
+class Profile_C:
 
     def __init__(self, id):
         self.id = ObjectId(id)
 
+    def SaveChanges(self, POST):
+        data = Data_Extraction().Profile(POST=POST)
+        filter = {'_id': self.id}
+        Queries(users).UpdateOne(filter=filter, update={'$set':data})
 
     def GatherAll(self):
-        return list(career.find({'_id': self.id}, {'_id':0}))
+        # print(users.find_one({'_id':self.id}, {'id':0, '_id':0, 'password':0, 'is_superuser':0, 'is_active':0, 'is_staff':0, 'last_login':0, 'username':0, 'date_joined':0}))
+        return users.find_one({'_id':self.id}, {'id':0, '_id':0, 'password':0, 'is_superuser':0, 'is_active':0, 'is_staff':0, 'last_login':0, 'username':0, 'date_joined':0})
 
+    def Privacy(self):
+        print(users.find_one({'_id':self.id}, {'_id':0, 'privacy':1}))
+        if users.find_one({'_id':self.id}, {'_id':0, 'privacy':1})['privacy'] == 'Private':
+            return Queries(users).UpdateOne(filter={'_id':self.id}, update={'$set': {'privacy':'Public'}})
 
-    def SaveChanges(self, POST):
-        data = Data_Extraction().Career(POST=POST)
-        filter = {'_id': self.id}
-        Queries(career).UpdateOne(filter=filter, update={'$set':data})
-
-
-    def Delete(self, name):
-        Queries(career).UpdateOne(filter={'_id': self.id}, update={'$unset':{name: 1}})
-
-
-    def AddOne(self):
-        data = Data_Extraction().Career(self.POST)
-        Queries(career).InsertOne(data=data)
+        return Queries(users).UpdateOne(filter={'_id':self.id}, update={'$set': {'privacy':'Private'}})
 
 
 class Queries:
@@ -185,6 +231,9 @@ class Queries:
 
     def UpdateOne(self, filter, update):
             return self.collection.update_one(filter=filter, update=update)
+
+    def UpdateOneUpsert(self, filter, update):
+                return self.collection.update_one(filter=filter, update=update, upsert=True)
 
 
 class Randomizer:
@@ -247,6 +296,9 @@ class UserSettings:
 
     def __init__(self, id):
         self.id = ObjectId(id)
+
+    def getEmail(self):
+        return users.find_one({'_id':self.id}, {'username':1})
 
     def Activate(self):
         users.update_one({'_id': self.id}, {'$set': {'is_active': True}})
@@ -315,3 +367,82 @@ class Reset_controller:
         password = Data_Extraction().password(POST)['password']
         email = UserSettings(id=self.id).ChangePassword(password=password)
         ForgetPassword_controller(email=email).DeleteLink()
+
+
+class Career_C:
+
+    def __init__(self, id):
+        self.id = ObjectId(id)
+
+
+    def GatherAll(self):
+        return list(career.find({'_id': self.id}, {'_id':0}))
+
+
+    def SaveChanges(self, POST):
+        data = Data_Extraction().Career(POST=POST)
+        filter = {'_id': self.id}
+        Queries(career).UpdateOne(filter=filter, update={'$set':data})
+
+
+    def Delete(self, name):
+        Queries(career).UpdateOne(filter={'_id': self.id}, update={'$unset':{name: 1}})
+
+
+    def AddOne(self, POST):
+        data = Data_Extraction().Career(POST)
+        Queries(career).InsertOne(data=data)
+
+class Post_C:
+
+    def __init__(self, id):
+        self.id = ObjectId(id)
+
+
+    def GatherAll(self):
+        return list(post.find({'author': self.id}))
+
+
+    def SaveChanges(self, POST):
+        data = Data_Extraction().Post(POST=POST, id=self.id)
+        filter = {'_id': data['_id']}
+        if data['_id']:
+            Queries(post).UpdateOne(filter=filter, update={'$set':data})
+
+        else:
+            data.pop('_id')
+            Queries(post).InsertOne(data=data)
+
+    # delete the whole post with its associated comments.
+    def DeletePost(self):
+        filter = {'_id': self.id}
+        Queries(post).DeleteMany(filter=filter)
+
+
+class Review_C:
+
+    def __init__(self, id):
+        self.email = UserSettings(id=id).getEmail()['username']
+        self.id = id
+
+
+
+    def GatherAll(self):
+
+        return list(post.find({'comments.'+self.id:{'$exists':True}},
+                              {'comments.'+self.id:1, 'email':1, 'title':1, 'question':1, 'abstract':1, 'author': 1 , 'comments.'+self.id:1}))
+
+
+    def SaveChanges(self, POST):
+        data = Data_Extraction().Review(POST=POST, email=self.email, id=self.id)
+        print(POST.get('identity'))
+        filter = {'_id':data['_id']}#, 'comments':self.email} #id- question id not person's id
+        data.pop('_id')
+
+        Queries(post).UpdateOne(filter=filter, update={'$set':data})
+
+    # delete the whole post with its associated comments.
+    def DeleteComment(self, email):
+        filter = {'_id': self.id, 'comments':email}
+        Queries(post).DeleteMany(filter=filter)
+

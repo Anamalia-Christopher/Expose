@@ -19187,7 +19187,7 @@ textarea[resize='horizontal']
 
     content: '';
 
-    border-left: 2px solid #5e72e4;
+    border-left: 5px solid #5e72e4 !important;
 }
 .navbar-vertical .navbar-nav .nav-link > i
 {
